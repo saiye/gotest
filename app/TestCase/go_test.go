@@ -92,16 +92,25 @@ func fibonacci(n int, c chan int) {
 }
 
 func Test5(t *testing.T) {
-/*	f:= func(v int32) {
+	/*	f:= func(v int32) {
 		fmt.Println(v)
 	}*/
-	var i int32=0
-	for ;i<10;i++ {
-		go  myPrint(i)
+	var i int32 = 0
+	for ; i < 10; i++ {
+		go myPrint(i)
 	}
+	//让出时间片，让别的线程执行先
 	runtime.Gosched()
 	fmt.Println("main")
 }
-func myPrint(i int32)  {
+func myPrint(i int32) {
 	fmt.Println(i)
+}
+
+func Test6(t *testing.T) {
+	timeout := make(chan bool, 1)
+	go func() {
+		time.Sleep(1 * time.Second)
+		timeout <- true
+	}()
 }
